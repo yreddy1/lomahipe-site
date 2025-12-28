@@ -181,11 +181,11 @@ export default function Home() {
               </div>
 
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-white drop-shadow-sm">
-                Intelligence for Health, Data, and Discovery
+                Intelligence that powers decisive action and measurable outcomes
               </h1>
 
               <p className="max-w-2xl text-lg text-slate-100 sm:text-xl leading-relaxed drop-shadow-sm">
-                Researching, incubating, and delivering low-maintenance, high-performance technology that turns complex health information into trusted intelligence.
+                Researching, incubating, and delivering low-maintenance, high-performance technology so teams can turn complex health information into decisions they trust.
               </p>
             </div>
 
@@ -394,14 +394,14 @@ export default function Home() {
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-6 py-12">
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-slate-900">LomaHipe</span>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-semibold text-slate-900">LomaHipe</span>
+                </div>
+                <p className="max-w-xs text-sm text-slate-500">
+                  Building resilient data foundations and evidence-grade intelligence that customers rely on for confident decisions in health and research.
+                </p>
               </div>
-              <p className="max-w-xs text-sm text-slate-500">
-                Building resilient data foundations and evidence-grade intelligence for health and research.
-              </p>
-            </div>
             
             <div className="flex flex-wrap gap-8 text-sm text-slate-600">
               <div className="flex flex-col gap-3">
