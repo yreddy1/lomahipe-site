@@ -99,10 +99,10 @@ export default function Home() {
         : null;
 
   return (
-    <div className={`min-h-screen bg-slate-50 text-slate-900 selection:bg-sky-100 selection:text-sky-900 transition-all duration-700 ${isReactorActive ? "brightness-110 contrast-125" : ""}`} style={{ filter: isReactorActive ? "url(#fusion-warp)" : "none" }}>
+    <div className={`min-h-screen bg-slate-50 text-slate-900 selection:bg-sky-100 selection:text-sky-900 transition-all duration-700 ${isReactorActive ? "brightness-110 contrast-125" : ""}`}>
       {/* Fusion Overlay */}
       <div 
-        className={`pointer-events-none fixed inset-0 z-[100] bg-gradient-radial from-cyan-400/20 via-blue-500/10 to-transparent transition-opacity duration-700 ${isReactorActive ? "opacity-100" : "opacity-0"}`} 
+        className={`pointer-events-none fixed inset-0 z-[100] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-400/20 via-blue-500/10 to-transparent transition-opacity duration-700 ${isReactorActive ? "opacity-100" : "opacity-0"}`} 
         style={{ mixBlendMode: "overlay" }}
       />
 
