@@ -253,7 +253,18 @@ export default function Home() {
               Tell us about your data, analytics, or platform goals. We will respond with a thoughtful, practical next step.
             </p>
           </div>
-          <form className="mt-10 grid gap-6 rounded-3xl bg-white p-8 shadow-lg ring-1 ring-slate-200 sm:grid-cols-2">
+          <form
+            action="https://formspree.io/f/xgoeypne"
+            method="POST"
+            className="mt-10 grid gap-6 rounded-3xl bg-white p-8 shadow-lg ring-1 ring-slate-200 sm:grid-cols-2"
+          >
+            {/* Formspree subject */}
+            <input
+              type="hidden"
+              name="_subject"
+              value="New Contact — LomaHipe"
+            />
+
             <div className="sm:col-span-1">
               <label className="block text-sm font-semibold text-slate-900" htmlFor="name">
                 Name
@@ -262,10 +273,12 @@ export default function Home() {
                 id="name"
                 name="name"
                 type="text"
+                required
                 className="mt-2.5 w-full rounded-xl border-0 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 transition-all"
                 placeholder="Your name"
               />
             </div>
+
             <div className="sm:col-span-1">
               <label className="block text-sm font-semibold text-slate-900" htmlFor="email">
                 Email
@@ -274,10 +287,12 @@ export default function Home() {
                 id="email"
                 name="email"
                 type="email"
+                required
                 className="mt-2.5 w-full rounded-xl border-0 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 transition-all"
                 placeholder="you@example.com"
               />
             </div>
+
             <div className="sm:col-span-2">
               <label className="block text-sm font-semibold text-slate-900" htmlFor="message">
                 Message
@@ -286,12 +301,16 @@ export default function Home() {
                 id="message"
                 name="message"
                 rows={4}
+                required
                 className="mt-2.5 w-full rounded-xl border-0 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 transition-all"
                 placeholder="What would you like to discuss?"
               />
             </div>
+
             <div className="sm:col-span-2 flex items-center justify-between pt-2">
-              <p className="text-xs text-slate-500">No spam. We will only use your details to reply.</p>
+              <p className="text-xs text-slate-500">
+                No spam. We will only use your details to reply.
+              </p>
               <button
                 type="submit"
                 className="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
