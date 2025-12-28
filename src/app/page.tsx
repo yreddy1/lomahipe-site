@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { name: "What We Build", href: "#what-we-do" },
@@ -45,6 +45,58 @@ const capabilities = [
 
 export default function Home() {
   const [isReactorActive, setIsReactorActive] = useState(false);
+  const [activeModal, setActiveModal] = useState<"privacy" | "terms" | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (activeModal) {
+      requestAnimationFrame(() => setModalVisible(true));
+    } else {
+      setModalVisible(false);
+    }
+  }, [activeModal]);
+
+  useEffect(() => {
+    if (!activeModal) return undefined;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveModal(null);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeModal]);
+
+  const modalContent =
+    activeModal === "privacy"
+      ? {
+          title: "Privacy Policy",
+          paragraphs: [
+            "We handle health-related and organizational data with rigor. Information shared with LomaHipe is used solely to deliver requested services, strengthen our platforms, and support our customer relationships.",
+            "We do not sell personal data. Access is limited to authorized personnel under confidentiality obligations, enforced through least-privilege controls, logging, and periodic review.",
+            "Data is encrypted in transit and at rest. When we work with protected health information, we align to applicable regulations and customer-specific governance, including breach notification protocols.",
+            "You may request access, corrections, or deletion of your information by contacting privacy@lomahipe.com. We respond consistent with contractual and regulatory requirements.",
+          ],
+        }
+      : activeModal === "terms"
+        ? {
+            title: "Terms of Service",
+            paragraphs: [
+              "By using LomaHipe offerings, you agree to comply with applicable laws, policies, and the governing agreement for your engagement.",
+              "Our platforms, models, and documentation are provided for your internal use. Reverse engineering, sublicensing, or resale are prohibited unless explicitly permitted by law or contract.",
+              "LomaHipe does not provide medical advice. Outputs require professional validation, and you remain responsible for clinical, operational, and compliance decisions.",
+              "To discuss tailored provisions for regulated workflows, service-level needs, or data-handling requirements, contact legal@lomahipe.com.",
+            ],
+          }
+        : null;
 
   return (
     <div className={`min-h-screen bg-slate-50 text-slate-900 selection:bg-sky-100 selection:text-sky-900 transition-all duration-700 ${isReactorActive ? "brightness-110 contrast-125" : ""}`} style={{ filter: isReactorActive ? "url(#fusion-warp)" : "none" }}>
@@ -361,8 +413,23 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-3">
                 <span className="font-semibold text-slate-900">Legal</span>
-                <a href="/privacy" className="hover:text-sky-600">Privacy Policy</a>
-                <a href="/terms" className="hover:text-sky-600">Terms of Service</a>
+                <div className="flex items-center gap-2 text-slate-600">
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("privacy")}
+                    className="hover:text-sky-600 focus:outline-none focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                  >
+                    Privacy
+                  </button>
+                  <span aria-hidden className="text-slate-300">|</span>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal("terms")}
+                    className="hover:text-sky-600 focus:outline-none focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                  >
+                    Terms
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -372,6 +439,45 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {activeModal && modalContent && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 py-10">
+          <div
+            className={`absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200 ${modalVisible ? "opacity-100" : "opacity-0"}`}
+            onClick={() => setActiveModal(null)}
+            aria-hidden
+          />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`${activeModal}-dialog-title`}
+            className={`relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-slate-200 transition-all duration-200 ease-out ${modalVisible ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-1"}`}
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-4">
+              <h2 id={`${activeModal}-dialog-title`} className="text-xl font-semibold text-slate-900">
+                {modalContent.title}
+              </h2>
+              <button
+                type="button"
+                onClick={() => setActiveModal(null)}
+                className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500"
+                aria-label="Close dialog"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.22 5.22a.75.75 0 011.06 0L10 8.94l3.72-3.72a.75.75 0 111.06 1.06L11.06 10l3.72 3.72a.75.75 0 11-1.06 1.06L10 11.06l-3.72 3.72a.75.75 0 11-1.06-1.06L8.94 10 5.22 6.28a.75.75 0 010-1.06z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <div className="max-h-[70vh] overflow-y-auto px-6 pb-6 pt-4 text-sm leading-relaxed text-slate-700">
+              {modalContent.paragraphs.map((paragraph, index) => (
+                <p key={index} className={index > 0 ? "mt-3" : undefined}>
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
