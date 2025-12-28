@@ -23,4 +23,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes flag-wave {
+  0% { transform: perspective(1000px) rotateY(-5deg) translateY(0); }
+  50% { transform: perspective(1000px) rotateY(5deg) translateY(-2px); }
+  100% { transform: perspective(1000px) rotateY(-5deg) translateY(0); }
+}
+
+.animate-flag {
+  animation: flag-wave 4s ease-in-out infinite;
+  transform-origin: left center;
 }

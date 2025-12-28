@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 
 const navItems = [
   { name: "What We Build", href: "#what-we-do" },
+  { name: "How We Work", href: "#how-we-work" },
   { name: "About", href: "#about" },
   { name: "Contact", href: "#contact" },
 ];
@@ -40,18 +44,51 @@ const capabilities = [
 ];
 
 export default function Home() {
+  const [isReactorActive, setIsReactorActive] = useState(false);
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-sky-100 selection:text-sky-900">
+    <div className={`min-h-screen bg-slate-50 text-slate-900 selection:bg-sky-100 selection:text-sky-900 transition-all duration-700 ${isReactorActive ? "brightness-110 contrast-125" : ""}`} style={{ filter: isReactorActive ? "url(#fusion-warp)" : "none" }}>
+      {/* Fusion Overlay */}
+      <div 
+        className={`pointer-events-none fixed inset-0 z-[100] bg-gradient-radial from-cyan-400/20 via-blue-500/10 to-transparent transition-opacity duration-700 ${isReactorActive ? "opacity-100" : "opacity-0"}`} 
+        style={{ mixBlendMode: "overlay" }}
+      />
+
       <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/60">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:py-5">
-          <div className="flex items-center gap-4 rounded-xl bg-white/50 px-3 py-2 transition hover:bg-white">
+          <div 
+            className="group relative flex items-center cursor-pointer"
+            onMouseEnter={() => setIsReactorActive(true)}
+            onMouseLeave={() => setIsReactorActive(false)}
+          >
             <Image
               src="/logo.png"
               alt="LomaHipe logo"
               width={180}
               height={180}
-              className="h-12 w-auto object-contain sm:h-16"
               priority
+              className="
+                h-12 sm:h-16 w-auto object-contain
+                transition-all duration-500 ease-out
+                group-hover:animate-flag
+                group-hover:brightness-110
+                group-hover:contrast-110
+                relative z-10
+              "
+            />
+
+            {/* subtle glow */}
+            <div
+              aria-hidden
+              className="
+                pointer-events-none absolute inset-0
+                rounded-xl
+                opacity-0
+                blur-lg
+                bg-gradient-to-r from-sky-400/30 via-teal-400/30 to-sky-400/30
+                transition-opacity duration-500
+                group-hover:opacity-100
+              "
             />
           </div>
           <nav aria-label="Primary">
@@ -136,6 +173,70 @@ export default function Home() {
           </div>
         </section>
 
+        {/* HOW WE WORK */}
+        <section
+          id="how-we-work"
+          className="mx-auto max-w-6xl px-6 py-20 sm:py-24"
+          aria-labelledby="how-we-work-title"
+        >
+          <div className="max-w-2xl">
+            <h2
+              id="how-we-work-title"
+              className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+            >
+              How We Work
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
+              Our approach is designed to respect real-world constraints while producing systems that
+              are reliable, maintainable, and trusted over time.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            {/* Step 1 */}
+            <div className="group relative flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-slate-300">
+              <div className="mb-4 text-sm font-semibold uppercase tracking-wide text-sky-600 transition-transform duration-300 group-hover:scale-105 origin-left">
+                Step 1
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">
+                Understand the Environment
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-slate-600">
+                We begin by understanding operational realities, constraints, stakeholders, and risks—
+                not just technical requirements.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="group relative flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-slate-300">
+              <div className="mb-4 text-sm font-semibold uppercase tracking-wide text-sky-600 transition-transform duration-300 group-hover:scale-105 origin-left">
+                Step 2
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">
+                Research & Prototype
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-slate-600">
+                We research, test, and validate approaches before scaling—ensuring solutions are grounded
+                in evidence and practical feasibility.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="group relative flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-slate-300">
+              <div className="mb-4 text-sm font-semibold uppercase tracking-wide text-sky-600 transition-transform duration-300 group-hover:scale-105 origin-left">
+                Step 3
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">
+                Deliver Systems That Endure
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-slate-600">
+                We deliver low-maintenance, high-performance systems designed to operate reliably
+                beyond initial deployment.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ABOUT */}
         <section id="about" className="border-y border-slate-200 bg-slate-50/50">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
@@ -149,16 +250,16 @@ export default function Home() {
             {/* Mission / Values / Approach */}
             <div className="mt-12 grid gap-8 md:grid-cols-3">
               {/* Mission */}
-              <div className="flex flex-col rounded-2xl bg-slate-900 p-8 text-white shadow-xl ring-1 ring-slate-900/10">
-                <h3 className="text-lg font-bold tracking-tight">Mission</h3>
+              <div className="group relative flex flex-col rounded-2xl bg-slate-900 p-8 text-white shadow-xl ring-1 ring-slate-900/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-slate-700">
+                <h3 className="text-lg font-bold tracking-tight transition-transform duration-300 group-hover:scale-105 origin-left">Mission</h3>
                 <p className="mt-4 text-base leading-relaxed text-slate-300">
                   Advance the responsible use of health data by delivering clear, trustworthy intelligence and systems that organizations can operate with confidence over the long term.
                 </p>
               </div>
 
               {/* Values */}
-              <div className="flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
-                <h3 className="text-lg font-bold tracking-tight text-slate-900">Values</h3>
+              <div className="group relative flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-slate-300">
+                <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-transform duration-300 group-hover:scale-105 origin-left">Values</h3>
                 <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600">
                   <li className="flex gap-2"><span className="text-sky-500 font-bold">•</span> Stewardship and integrity in how data is sourced, governed, and communicated.</li>
                   <li className="flex gap-2"><span className="text-sky-500 font-bold">•</span> Transparency through clear delivery, measurable outcomes, and dependable systems.</li>
@@ -167,8 +268,8 @@ export default function Home() {
               </div>
 
               {/* Approach */}
-              <div className="flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md">
-                <h3 className="text-lg font-bold tracking-tight text-slate-900">Approach</h3>
+              <div className="group relative flex flex-col rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-slate-300">
+                <h3 className="text-lg font-bold tracking-tight text-slate-900 transition-transform duration-300 group-hover:scale-105 origin-left">Approach</h3>
                 <p className="mt-4 text-base leading-relaxed text-slate-600">
                   We embed with teams to research, prototype, and deploy solutions—then harden them into repeatable systems that continue to perform well beyond initial delivery.
                 </p>
@@ -239,8 +340,36 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-slate-500">
-          <p>&copy; {new Date().getFullYear()} LomaHipe. All rights reserved. LomaHipe is an operating company within The Cerna Group portfolio.</p>
+        <div className="mx-auto max-w-6xl px-6 py-12">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold text-slate-900">LomaHipe</span>
+              </div>
+              <p className="max-w-xs text-sm text-slate-500">
+                Building resilient data foundations and evidence-grade intelligence for health and research.
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap gap-8 text-sm text-slate-600">
+              <div className="flex flex-col gap-3">
+                <span className="font-semibold text-slate-900">Company</span>
+                <a href="#about" className="hover:text-sky-600">About</a>
+                <a href="#what-we-do" className="hover:text-sky-600">Services</a>
+                <a href="#how-we-work" className="hover:text-sky-600">How We Work</a>
+                <a href="#contact" className="hover:text-sky-600">Contact</a>
+              </div>
+              <div className="flex flex-col gap-3">
+                <span className="font-semibold text-slate-900">Legal</span>
+                <a href="/privacy" className="hover:text-sky-600">Privacy Policy</a>
+                <a href="/terms" className="hover:text-sky-600">Terms of Service</a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-12 border-t border-slate-100 pt-8 text-center text-xs text-slate-400">
+            <p>&copy; {new Date().getFullYear()} LomaHipe. All rights reserved. LomaHipe is an operating company within The Cerna Group portfolio.</p>
+          </div>
         </div>
       </footer>
     </div>
